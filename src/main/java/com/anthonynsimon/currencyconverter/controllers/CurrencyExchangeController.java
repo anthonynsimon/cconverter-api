@@ -5,7 +5,6 @@ import com.anthonynsimon.currencyconverter.model.Currency;
 import com.anthonynsimon.currencyconverter.model.ExchangeQuote;
 import com.anthonynsimon.currencyconverter.model.ExchangeRates;
 import com.anthonynsimon.currencyconverter.services.ExchangeRateService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -19,12 +18,6 @@ public final class CurrencyExchangeController {
 
     @Autowired
     ExchangeRateService exchangeRateService;
-
-    private ObjectMapper objectMapper;
-
-    public CurrencyExchangeController() {
-        objectMapper = new ObjectMapper();
-    }
 
     @RequestMapping(value = "/convert", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
@@ -60,14 +53,13 @@ public final class CurrencyExchangeController {
 
     @RequestMapping(value = "/rates/{currency}", method = RequestMethod.GET)
     @ResponseBody
-    public String convertCurrency(@PathVariable(name = "currency") String currencyCode) throws Exception {
+    public ExchangeRates convertCurrency(@PathVariable(name = "currency") String currencyCode) throws Exception {
         Currency currency = new Currency(currencyCode);
 
         if (!currency.isValid()) {
             throw new Exception("invalid currency code");
         }
 
-        ExchangeRates rates = exchangeRateService.getExchangeRates(currency);
-        return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(rates);
+        return exchangeRateService.getExchangeRates(currency);
     }
 }
