@@ -8,6 +8,8 @@ import java.util.Set;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public final class Currency {
 
+
+
     private String code;
 
     private static final Set<String> KNOWN_CODES = new HashSet<String>() {{
@@ -32,6 +34,7 @@ public final class Currency {
         add("MYR");
         add("NOK");
         add("NZD");
+        add("USD");
         add("PHP");
         add("PLN");
         add("RON");
@@ -55,10 +58,6 @@ public final class Currency {
         return code;
     }
 
-    public void setCode(String code) {
-        this.code = code;
-    }
-
     public boolean isValid() {
         if (code == null || code.isEmpty()) {
             return false;
@@ -67,6 +66,22 @@ public final class Currency {
             return false;
         }
         return KNOWN_CODES.contains(code);
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == null) {
+            return false;
+        }
+        if (!(other instanceof Currency)) {
+            return false;
+        }
+        return this.hashCode() == other.hashCode();
+    }
+
+    @Override
+    public int hashCode() {
+        return code.hashCode();
     }
 
     @Override
