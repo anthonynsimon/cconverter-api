@@ -13,13 +13,13 @@ public final class ExchangeRates {
     private String baseCurrency;
 
     @JsonProperty("rates")
-    private Map<String, BigDecimal> exchangeRates;
+    private Map<Currency, BigDecimal> exchangeRates;
 
     // TODO: serialize date to LocalDateTime type
     @JsonProperty("date")
     private String date;
 
-    public ExchangeRates(String baseCurrency, String date, Map<String, BigDecimal> exchangeRates) {
+    public ExchangeRates(String baseCurrency, String date, Map<Currency, BigDecimal> exchangeRates) {
         this.baseCurrency = baseCurrency;
         this.date = date;
         this.exchangeRates = exchangeRates;
@@ -37,7 +37,7 @@ public final class ExchangeRates {
         return date;
     }
 
-    public Map<String, BigDecimal> getRates() {
+    public Map<Currency, BigDecimal> getRates() {
         return exchangeRates;
     }
 

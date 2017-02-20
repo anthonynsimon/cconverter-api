@@ -41,9 +41,11 @@ public final class CurrencyExchangeController {
         }
 
         BigDecimal inputValue = new BigDecimal(value);
-        ExchangeRates baseRates = exchangeRateService.getExchangeRates(from);
+        ExchangeRates baseRates = exchangeRateService.getExchangeRates(fromCurrency);
         CurrencyConverter converter = new CurrencyConverter(baseRates);
-        return converter.convert(to, inputValue).toPlainString();
+        BigDecimal result = converter.convert(toCurrency, inputValue);
+
+        return result.toPlainString();
     }
 
     @RequestMapping(value = "/rates/{currency}", method = RequestMethod.GET)
@@ -55,7 +57,7 @@ public final class CurrencyExchangeController {
             throw new Exception("invalid currency code");
         }
 
-        ExchangeRates rates = exchangeRateService.getExchangeRates(currencyCode);
+        ExchangeRates rates = exchangeRateService.getExchangeRates(currency);
         return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(rates);
     }
 }
