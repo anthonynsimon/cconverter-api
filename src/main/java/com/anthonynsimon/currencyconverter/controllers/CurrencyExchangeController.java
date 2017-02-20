@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Controller
 @RequestMapping("/api")
@@ -39,14 +40,15 @@ public final class CurrencyExchangeController {
 
         BigDecimal inputValue = new BigDecimal(value);
 
-        ExchangeQuote.Builder exchangeQuoteBuilder = new ExchangeQuote.Builder()
-                .setAmountToConvert(inputValue)
-                .setFromCurrency(fromCurrency)
-                .setToCurrency(toCurrency);
-
+        // Handle case when from equals to
         if (fromCurrency.getCode().equals(toCurrency.getCode())) {
-            return exchangeQuoteBuilder
+            return new ExchangeQuote.Builder()
+                    .setAmountToConvert(inputValue)
+                    .setFromCurrency(fromCurrency)
+                    .setToCurrency(toCurrency)
                     .setConversionResult(inputValue)
+                    .setExchangeRate(BigDecimal.ONE)
+                    .setDate(LocalDate.now())
                     .build();
         }
 
@@ -54,10 +56,6 @@ public final class CurrencyExchangeController {
         CurrencyConverter converter = new CurrencyConverter(baseRates);
 
         return converter.convert(toCurrency, inputValue);
-
-//        return exchangeQuoteBuilder
-//                .setConversionResult(result)
-//                .build();
     }
 
     @RequestMapping(value = "/rates/{currency}", method = RequestMethod.GET)
