@@ -1,39 +1,45 @@
 package com.anthonynsimon.currencyconverter.model;
 
+import com.anthonynsimon.currencyconverter.model.serializers.LocalDateDeserializer;
+import com.anthonynsimon.currencyconverter.model.serializers.LocalDateSerializer;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Map;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public final class ExchangeRates {
 
     @JsonProperty("base")
-    private String baseCurrency;
+    private Currency baseCurrency;
 
     @JsonProperty("rates")
     private Map<Currency, BigDecimal> exchangeRates;
 
-    // TODO: serialize date to LocalDateTime type
     @JsonProperty("date")
-    private String date;
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
+    private LocalDate date;
 
-    public ExchangeRates(String baseCurrency, String date, Map<Currency, BigDecimal> exchangeRates) {
+    public ExchangeRates(Currency baseCurrency, LocalDate date, Map<Currency, BigDecimal> exchangeRates) {
         this.baseCurrency = baseCurrency;
         this.date = date;
         this.exchangeRates = exchangeRates;
     }
 
+    // For Jackson
     protected ExchangeRates() {
-
     }
 
-    public String getBaseCurrency() {
+    public Currency getBaseCurrency() {
         return baseCurrency;
     }
 
-    public String getDate() {
+    public LocalDate getDate() {
         return date;
     }
 

@@ -52,11 +52,12 @@ public final class CurrencyExchangeController {
 
         ExchangeRates baseRates = exchangeRateService.getExchangeRates(fromCurrency);
         CurrencyConverter converter = new CurrencyConverter(baseRates);
-        BigDecimal result = converter.convert(toCurrency, inputValue);
 
-        return exchangeQuoteBuilder
-                .setConversionResult(result)
-                .build();
+        return converter.convert(toCurrency, inputValue);
+
+//        return exchangeQuoteBuilder
+//                .setConversionResult(result)
+//                .build();
     }
 
     @RequestMapping(value = "/rates/{currency}", method = RequestMethod.GET)
