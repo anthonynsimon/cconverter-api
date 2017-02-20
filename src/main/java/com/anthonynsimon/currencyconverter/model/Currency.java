@@ -1,14 +1,15 @@
 package com.anthonynsimon.currencyconverter.model;
 
+import com.anthonynsimon.currencyconverter.model.serializers.CurrencySerializer;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
+@JsonSerialize(using = CurrencySerializer.class)
 public final class Currency {
-
-
 
     private String code;
 
