@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ExchangeQuote {
+public final class ExchangeQuote {
 
     private final Currency fromCurrency;
     private final Currency toCurrency;

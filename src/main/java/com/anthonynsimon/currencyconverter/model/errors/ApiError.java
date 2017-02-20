@@ -1,14 +1,17 @@
-package com.anthonynsimon.currencyconverter.errors;
+package com.anthonynsimon.currencyconverter.model.errors;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.util.Map;
 
-public class ApiError {
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public final class ApiError {
 
-    public Integer status;
-    public String error;
-    public String message;
-    public String timeStamp;
-    public String trace;
+    public final Integer status;
+    public final String error;
+    public final String message;
+    public final String timeStamp;
+    public final String trace;
 
     public ApiError(int status, Map<String, Object> errorAttributes) {
         this.status = status;

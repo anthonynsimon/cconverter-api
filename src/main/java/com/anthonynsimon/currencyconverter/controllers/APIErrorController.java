@@ -1,6 +1,6 @@
 package com.anthonynsimon.currencyconverter.controllers;
 
-import com.anthonynsimon.currencyconverter.errors.ApiError;
+import com.anthonynsimon.currencyconverter.model.errors.ApiError;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.web.ErrorAttributes;
