@@ -5,19 +5,44 @@ import com.anthonynsimon.currencyconverter.model.ExchangeRates;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
+
 @Service
 public final class ExchangeRateService {
 
+    // Cache rates for reasonably time, rates do not need to be updated for every request
+    private final static Duration CACHE_EXPIRATION = Duration.ofHours(2);
+
     private RestTemplate restTemplate;
     private final static String RESOURCE_URL = "http://api.fixer.io/latest?base=%s";
+    private final Map<Currency, ExchangeRates> cachedRates;
 
-    // TODO: is this needed?
     public ExchangeRateService() {
         restTemplate = new RestTemplate();
+        cachedRates = new HashMap<>();
     }
 
-    // TODO: cache rates for reasonably time, rates do not need to be updated for every request
     public ExchangeRates getExchangeRates(Currency from) {
-        return restTemplate.getForObject(String.format(RESOURCE_URL, from), ExchangeRates.class);
+        ExchangeRates exchangeRates = cachedRates.get(from);
+
+        boolean shouldUpdate = true;
+        if (exchangeRates != null) {
+            if (LocalDateTime.now().minus(CACHE_EXPIRATION).compareTo(exchangeRates.getDateFetched()) > 0) {
+                shouldUpdate = true;
+            } else {
+                shouldUpdate = false;
+            }
+        }
+
+        if (shouldUpdate) {
+            exchangeRates = restTemplate.getForObject(String.format(RESOURCE_URL, from), ExchangeRates.class);
+            exchangeRates.setDateFetched(LocalDateTime.now());
+            cachedRates.put(from, exchangeRates);
+        }
+
+        return exchangeRates;
     }
 }
