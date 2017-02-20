@@ -2,6 +2,7 @@ package com.anthonynsimon.currencyconverter.controllers;
 
 import com.anthonynsimon.currencyconverter.converter.CurrencyConverter;
 import com.anthonynsimon.currencyconverter.model.Currency;
+import com.anthonynsimon.currencyconverter.model.ExchangeQuote;
 import com.anthonynsimon.currencyconverter.model.ExchangeRates;
 import com.anthonynsimon.currencyconverter.services.ExchangeRateService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -26,9 +27,9 @@ public final class CurrencyExchangeController {
 
     @RequestMapping(value = "/convert", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public String convertCurrency(@RequestParam String from,
-                                  @RequestParam String to,
-                                  @RequestParam String value) throws Exception {
+    public ExchangeQuote convertCurrency(@RequestParam String from,
+                                         @RequestParam String to,
+                                         @RequestParam String value) throws Exception {
         Currency fromCurrency = new Currency(from);
         Currency toCurrency = new Currency(to);
 
@@ -36,16 +37,26 @@ public final class CurrencyExchangeController {
             throw new Exception("invalid currency code");
         }
 
+        BigDecimal inputValue = new BigDecimal(value);
+
+        ExchangeQuote.Builder exchangeQuoteBuilder = new ExchangeQuote.Builder()
+                .setAmountToConvert(inputValue)
+                .setFromCurrency(fromCurrency)
+                .setToCurrency(toCurrency);
+
         if (fromCurrency.getCode().equals(toCurrency.getCode())) {
-            return value;
+            return exchangeQuoteBuilder
+                    .setConversionResult(inputValue)
+                    .build();
         }
 
-        BigDecimal inputValue = new BigDecimal(value);
         ExchangeRates baseRates = exchangeRateService.getExchangeRates(fromCurrency);
         CurrencyConverter converter = new CurrencyConverter(baseRates);
         BigDecimal result = converter.convert(toCurrency, inputValue);
 
-        return result.toPlainString();
+        return exchangeQuoteBuilder
+                .setConversionResult(result)
+                .build();
     }
 
     @RequestMapping(value = "/rates/{currency}", method = RequestMethod.GET)
