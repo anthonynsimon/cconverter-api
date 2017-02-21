@@ -32,11 +32,16 @@ public final class CurrencyExchangeController {
         if (!fromCurrency.isValid() || !toCurrency.isValid()) {
             throw new InvalidParameterException("invalid 'from' and/or 'to' currencies provided");
         }
-        if (amount.isEmpty()) {
+        if (amount == null || amount.isEmpty()) {
             throw new InvalidParameterException("invalid amount provided");
         }
 
-        BigDecimal inputAmount = new BigDecimal(amount);
+        BigDecimal inputAmount;
+        try {
+            inputAmount = new BigDecimal(amount);
+        } catch (NumberFormatException e) {
+            throw new InvalidParameterException("invalid amount provided");
+        }
 
         // Handle case when from equals to
         if (fromCurrency.getCurrencyCode().equals(toCurrency.getCurrencyCode())) {
