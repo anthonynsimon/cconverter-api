@@ -1,5 +1,6 @@
 package com.anthonynsimon.currencyconverter.converter;
 
+import com.anthonynsimon.currencyconverter.exceptions.NotFoundException;
 import com.anthonynsimon.currencyconverter.model.Currency;
 import com.anthonynsimon.currencyconverter.model.ExchangeQuote;
 import com.anthonynsimon.currencyconverter.model.ExchangeRates;
@@ -8,22 +9,20 @@ import java.math.BigDecimal;
 
 public final class CurrencyConverter {
 
-    private final ExchangeRates exchangeRates;
+    private final ExchangeRates baseRates;
 
-    // TODO: clean up the converter's API
-    public CurrencyConverter(ExchangeRates baseExchangeRates) {
-        this.exchangeRates = baseExchangeRates;
+    public CurrencyConverter(ExchangeRates baseRates) {
+        this.baseRates = baseRates;
     }
 
     public Currency getBaseCurrency() {
-        return exchangeRates.getBaseCurrency();
+        return baseRates.getBaseCurrency();
     }
 
-    // TODO: throw custom exception
-    public ExchangeQuote convert(Currency to, BigDecimal value) throws NullPointerException {
-        BigDecimal exchangeRate = exchangeRates.getRates().get(to);
+    public ExchangeQuote convert(Currency to, BigDecimal value) throws NotFoundException {
+        BigDecimal exchangeRate = baseRates.getRates().get(to);
         if (exchangeRate == null) {
-            throw new NullPointerException("couldn't get exchange rate for " + to);
+            throw new NotFoundException(String.format("couldn't find exchange rate from %s to %s", getBaseCurrency(), to));
         }
 
         BigDecimal conversionResult = exchangeRate.multiply(value)
@@ -35,7 +34,7 @@ public final class CurrencyConverter {
                 .setAmountToConvert(value)
                 .setToCurrency(to)
                 .setFromCurrency(getBaseCurrency())
-                .setDate(exchangeRates.getDate())
+                .setDate(baseRates.getDate())
                 .setExchangeRate(exchangeRate)
                 .build();
     }
