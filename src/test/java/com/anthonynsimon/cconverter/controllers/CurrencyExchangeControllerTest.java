@@ -1,0 +1,140 @@
+package com.anthonynsimon.cconverter.controllers;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+
+import static org.hamcrest.Matchers.containsString;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@RunWith(SpringRunner.class)
+@SpringBootTest
+@AutoConfigureMockMvc
+public class CurrencyExchangeControllerTest {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Test
+    public void testConvertMissingParams() throws Exception {
+        this.mockMvc.perform(post("/api/convert")
+                .param("from", "JPY")
+                .param("to", "")
+                .param("amount", "1.0"))
+                .andExpect(status().is4xxClientError());
+
+        this.mockMvc.perform(post("/api/convert")
+                .param("from", "")
+                .param("to", "USD")
+                .param("amount", "1.0"))
+                .andExpect(status().is4xxClientError());
+
+        this.mockMvc.perform(post("/api/convert")
+                .param("bad", "EUR")
+                .param("to", "USD")
+                .param("amount", "1.0"))
+                .andExpect(status().is4xxClientError());
+
+        this.mockMvc.perform(post("/api/convert")
+                .param("from", "JPY")
+                .param("to", "USD"))
+                .andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    public void testConvertNonNumericAmount() throws Exception {
+        this.mockMvc.perform(post("/api/convert")
+                .param("from", "JPY")
+                .param("to", "USD")
+                .param("amount", "1.0AB"))
+                .andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    public void testInvalidCurrency() throws Exception {
+        this.mockMvc.perform(post("/api/convert")
+                .param("from", "CRC")
+                .param("to", "USD")
+                .param("amount", "1.0AB"))
+                .andExpect(status().is4xxClientError());
+
+        this.mockMvc.perform(post("/api/convert")
+                .param("from", "USDD")
+                .param("to", "USD")
+                .param("amount", "1.0AB"))
+                .andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    public void testOneToOne() throws Exception {
+        this.mockMvc.perform(post("/api/convert")
+                .param("from", "USD")
+                .param("to", "USD")
+                .param("amount", "500"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().string(containsString("\"exchangeRate\":1")));
+
+        this.mockMvc.perform(post("/api/convert")
+                .param("from", "JPY")
+                .param("to", "JPY")
+                .param("amount", "500"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().string(containsString("\"exchangeRate\":1")));
+    }
+
+    @Test
+    public void testConvert() throws Exception {
+        this.mockMvc.perform(post("/api/convert")
+                .param("from", "USD")
+                .param("to", "EUR")
+                .param("amount", "1.0"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().string(containsString("conversionResult")));
+
+        this.mockMvc.perform(post("/api/convert")
+                .param("from", "JPY")
+                .param("to", "USD")
+                .param("amount", "1.0"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().string(containsString("conversionResult")));
+    }
+
+    @Test
+    public void testCaseInsensible() throws Exception {
+        this.mockMvc.perform(post("/api/convert")
+                .param("from", "jpy")
+                .param("to", "EUR")
+                .param("amount", "1.0"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().string(containsString("conversionResult")));
+
+        this.mockMvc.perform(post("/api/convert")
+                .param("from", "eur")
+                .param("to", "uSd")
+                .param("amount", "1.0"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().string(containsString("conversionResult")));
+    }
+
+    @Test
+    public void testGetRates() throws Exception {
+        this.mockMvc.perform(get("/api/rates/{currency}", "EUR"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().string(containsString("base")));
+    }
+}
