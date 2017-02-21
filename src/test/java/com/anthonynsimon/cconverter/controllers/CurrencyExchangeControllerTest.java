@@ -1,15 +1,29 @@
 package com.anthonynsimon.cconverter.controllers;
 
+import com.anthonynsimon.cconverter.model.Currency;
+import com.anthonynsimon.cconverter.model.ExchangeRates;
+import com.anthonynsimon.cconverter.providers.ExchangeRateProvider;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.HashMap;
+
 import static org.hamcrest.Matchers.containsString;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -22,6 +36,31 @@ public class CurrencyExchangeControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @MockBean
+    @Qualifier("fixer.io")
+    private ExchangeRateProvider exchangeRateProvider;
+
+    @Before
+    public void setupMock() {
+        ArgumentCaptor<Currency> currencyCaptor = ArgumentCaptor.forClass(Currency.class);
+
+        final Answer<ExchangeRates> exchangeRatesAnswer = new Answer<ExchangeRates>() {
+            @Override
+            public ExchangeRates answer(InvocationOnMock invocation) throws Throwable {
+                return new ExchangeRates(currencyCaptor.getValue(), LocalDate.now(), new HashMap<Currency, BigDecimal>() {
+                    {
+                        put(new Currency("EUR"), BigDecimal.valueOf(1.5));
+                        put(new Currency("USD"), BigDecimal.valueOf(2.5));
+                        put(new Currency("JPY"), BigDecimal.valueOf(3.5));
+                    }
+                });
+            }
+        };
+
+        when(exchangeRateProvider.getExchangeRates(currencyCaptor.capture()))
+                .thenAnswer(exchangeRatesAnswer);
+    }
 
     @Test
     public void testConvertMissingParams() throws Exception {
