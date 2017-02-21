@@ -8,7 +8,7 @@ import org.springframework.web.client.RestTemplate;
 
 @Component
 @Qualifier("fixer.io")
-public class FixerProvider implements ExchangeRateProvider {
+public final class FixerProvider implements ExchangeRateProvider {
 
     private RestTemplate restTemplate;
 
