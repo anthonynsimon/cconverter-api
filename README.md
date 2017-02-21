@@ -1,7 +1,7 @@
 # cconverter-api
 [![Build Status](https://travis-ci.org/anthonynsimon/cconverter-api.svg?branch=master)](https://travis-ci.org/anthonynsimon/cconverter-api/builds) 
 
-API server for conversion and exchange rate querying.
+API for currency exchange rate querying and conversion.
 
 ## Setup
 
