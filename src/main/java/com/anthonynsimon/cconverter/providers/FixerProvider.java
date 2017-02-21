@@ -10,9 +10,8 @@ import org.springframework.web.client.RestTemplate;
 @Qualifier("fixer.io")
 public final class FixerProvider implements ExchangeRateProvider {
 
-    private RestTemplate restTemplate;
-
     private final static String RESOURCE_URL = "http://api.fixer.io/latest?base=%s";
+    private RestTemplate restTemplate;
 
     public FixerProvider() {
         restTemplate = new RestTemplate();
