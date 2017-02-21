@@ -137,4 +137,13 @@ public class CurrencyExchangeControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(content().string(containsString("base")));
     }
+
+    @Test
+    public void testGetRatesBadInput() throws Exception {
+        this.mockMvc.perform(get("/api/rates/{currency}", ""))
+                .andExpect(status().is4xxClientError());
+
+        this.mockMvc.perform(get("/api/rates/{currency}", "EURO"))
+                .andExpect(status().is4xxClientError());
+    }
 }
