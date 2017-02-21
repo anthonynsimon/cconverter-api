@@ -11,7 +11,7 @@ import java.util.Set;
 @JsonSerialize(using = CurrencySerializer.class)
 public final class Currency {
 
-    private String code;
+    private String currencyCode;
 
     private static final Set<String> KNOWN_CODES = new HashSet<String>() {{
         add("AUD");
@@ -48,30 +48,30 @@ public final class Currency {
         add("EUR");
     }};
 
-    public Currency(String code) {
-        if (code != null) {
-            code = code.toUpperCase();
+    public Currency(String currencyCode) {
+        if (currencyCode != null) {
+            currencyCode = currencyCode.toUpperCase();
         }
-        this.code = code;
+        this.currencyCode = currencyCode;
     }
 
-    public String getCode() {
-        return code;
+    public String getCurrencyCode() {
+        return currencyCode;
     }
 
     public boolean isValid() {
-        if (code == null || code.isEmpty()) {
+        if (currencyCode == null || currencyCode.isEmpty()) {
             return false;
         }
-        if (code.length() != 3) {
+        if (currencyCode.length() != 3) {
             return false;
         }
-        return KNOWN_CODES.contains(code);
+        return KNOWN_CODES.contains(currencyCode);
     }
 
     @Override
     public String toString() {
-        return code;
+        return currencyCode;
     }
 
     @Override
@@ -83,11 +83,11 @@ public final class Currency {
 
         Currency currency = (Currency) o;
 
-        return code.equals(currency.code);
+        return currencyCode.equals(currency.currencyCode);
     }
 
     @Override
     public int hashCode() {
-        return code.hashCode();
+        return currencyCode.hashCode();
     }
 }

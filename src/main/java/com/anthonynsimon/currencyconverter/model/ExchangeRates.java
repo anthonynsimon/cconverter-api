@@ -16,28 +16,28 @@ import java.util.Map;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public final class ExchangeRates {
 
+    @JsonProperty("date")
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
+    private LocalDate date;
+
     @JsonProperty("base")
     private Currency baseCurrency;
 
     @JsonProperty("rates")
     private Map<Currency, BigDecimal> exchangeRates;
 
-    @JsonProperty("date")
-    @JsonDeserialize(using = LocalDateDeserializer.class)
-    @JsonSerialize(using = LocalDateSerializer.class)
-    private LocalDate date;
-
     @JsonIgnore
     private LocalDateTime dateFetched;
+
+    // For JSON serialization via Jackson
+    protected ExchangeRates() {
+    }
 
     public ExchangeRates(Currency baseCurrency, LocalDate date, Map<Currency, BigDecimal> exchangeRates) {
         this.baseCurrency = baseCurrency;
         this.date = date;
         this.exchangeRates = exchangeRates;
-    }
-
-    // For JSON serialization via Jackson
-    protected ExchangeRates() {
     }
 
     public LocalDateTime getDateFetched() {

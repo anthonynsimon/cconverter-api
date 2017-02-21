@@ -12,6 +12,6 @@ public class CurrencySerializer extends JsonSerializer<Currency> {
     @Override
     public void serialize(Currency value, JsonGenerator jsonGenerator, SerializerProvider provider)
             throws IOException {
-        jsonGenerator.writeString(value.getCode());
+        jsonGenerator.writeString(value.getCurrencyCode());
     }
 }

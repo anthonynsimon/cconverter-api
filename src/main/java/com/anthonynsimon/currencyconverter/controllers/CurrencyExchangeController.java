@@ -40,7 +40,7 @@ public final class CurrencyExchangeController {
         BigDecimal inputAmount = new BigDecimal(amount);
 
         // Handle case when from equals to
-        if (fromCurrency.getCode().equals(toCurrency.getCode())) {
+        if (fromCurrency.getCurrencyCode().equals(toCurrency.getCurrencyCode())) {
             return new ResponseEntity<>(
                     new ExchangeQuote.Builder()
                             .setAmountToConvert(inputAmount)
