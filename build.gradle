@@ -32,10 +32,6 @@ repositories {
 dependencies {
     compile 'org.springframework.boot:spring-boot-starter-web:1.5.1.RELEASE'
 
-//    testCompile 'junit:junit:4.12'
-//    testCompile 'org.mockito:mockito-all:1.9.5'
-
     testCompile 'org.springframework.boot:spring-boot-starter-test:1.5.1.RELEASE'
     testCompile 'org.assertj:assertj-core:3.6.2'
-    testCompile 'org.hamcrest:hamcrest-all:1.3'
 }
