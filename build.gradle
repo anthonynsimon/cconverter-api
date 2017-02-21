@@ -1,4 +1,4 @@
-group 'com.anthonynsimon.currencyconverter'
+group 'com.anthonynsimon.cconverter'
 version '0.1.0'
 
 apply plugin: 'java'
@@ -21,7 +21,7 @@ buildscript {
 }
 
 jar {
-    baseName = 'currencyconverter'
+    baseName = 'cconverter-api'
     version = '0.1.0'
 }
 

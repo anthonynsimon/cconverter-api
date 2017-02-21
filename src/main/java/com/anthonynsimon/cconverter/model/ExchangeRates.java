@@ -1,7 +1,7 @@
-package com.anthonynsimon.currencyconverter.model;
+package com.anthonynsimon.cconverter.model;
 
-import com.anthonynsimon.currencyconverter.model.serializers.LocalDateDeserializer;
-import com.anthonynsimon.currencyconverter.model.serializers.LocalDateSerializer;
+import com.anthonynsimon.cconverter.model.serializers.LocalDateDeserializer;
+import com.anthonynsimon.cconverter.model.serializers.LocalDateSerializer;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;

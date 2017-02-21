@@ -1,4 +1,4 @@
-package com.anthonynsimon.currencyconverter;
+package com.anthonynsimon.cconverter;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

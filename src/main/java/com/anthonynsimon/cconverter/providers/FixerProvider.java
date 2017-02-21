@@ -1,7 +1,7 @@
-package com.anthonynsimon.currencyconverter.providers;
+package com.anthonynsimon.cconverter.providers;
 
-import com.anthonynsimon.currencyconverter.model.Currency;
-import com.anthonynsimon.currencyconverter.model.ExchangeRates;
+import com.anthonynsimon.cconverter.model.Currency;
+import com.anthonynsimon.cconverter.model.ExchangeRates;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;

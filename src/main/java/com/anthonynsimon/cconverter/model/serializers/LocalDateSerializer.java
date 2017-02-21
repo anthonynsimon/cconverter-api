@@ -1,4 +1,4 @@
-package com.anthonynsimon.currencyconverter.model.serializers;
+package com.anthonynsimon.cconverter.model.serializers;
 
 
 import com.fasterxml.jackson.core.JsonGenerator;

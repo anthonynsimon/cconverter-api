@@ -1,6 +1,6 @@
-package com.anthonynsimon.currencyconverter.model;
+package com.anthonynsimon.cconverter.model;
 
-import com.anthonynsimon.currencyconverter.model.serializers.CurrencySerializer;
+import com.anthonynsimon.cconverter.model.serializers.CurrencySerializer;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 

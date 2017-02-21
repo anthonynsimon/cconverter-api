@@ -1,9 +1,9 @@
-package com.anthonynsimon.currencyconverter.converter;
+package com.anthonynsimon.cconverter.converter;
 
-import com.anthonynsimon.currencyconverter.exceptions.NotFoundException;
-import com.anthonynsimon.currencyconverter.model.Currency;
-import com.anthonynsimon.currencyconverter.model.ExchangeQuote;
-import com.anthonynsimon.currencyconverter.model.ExchangeRates;
+import com.anthonynsimon.cconverter.exceptions.NotFoundException;
+import com.anthonynsimon.cconverter.model.Currency;
+import com.anthonynsimon.cconverter.model.ExchangeQuote;
+import com.anthonynsimon.cconverter.model.ExchangeRates;
 
 import java.math.BigDecimal;
 
@@ -34,7 +34,6 @@ public final class CurrencyConverter {
                 .setAmountToConvert(value)
                 .setToCurrency(to)
                 .setFromCurrency(getBaseCurrency())
-                .setDate(baseRates.getDate())
                 .setExchangeRate(exchangeRate)
                 .build();
     }

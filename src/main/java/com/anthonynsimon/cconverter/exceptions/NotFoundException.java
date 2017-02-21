@@ -1,4 +1,4 @@
-package com.anthonynsimon.currencyconverter.exceptions;
+package com.anthonynsimon.cconverter.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

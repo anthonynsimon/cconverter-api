@@ -1,8 +1,8 @@
-package com.anthonynsimon.currencyconverter.services;
+package com.anthonynsimon.cconverter.services;
 
-import com.anthonynsimon.currencyconverter.model.Currency;
-import com.anthonynsimon.currencyconverter.model.ExchangeRates;
-import com.anthonynsimon.currencyconverter.providers.ExchangeRateProvider;
+import com.anthonynsimon.cconverter.model.Currency;
+import com.anthonynsimon.cconverter.model.ExchangeRates;
+import com.anthonynsimon.cconverter.providers.ExchangeRateProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;

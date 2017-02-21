@@ -1,4 +1,4 @@
-package com.anthonynsimon.currencyconverter.model.errors;
+package com.anthonynsimon.cconverter.model.errors;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 

@@ -1,11 +1,11 @@
-package com.anthonynsimon.currencyconverter.controllers;
+package com.anthonynsimon.cconverter.controllers;
 
-import com.anthonynsimon.currencyconverter.converter.CurrencyConverter;
-import com.anthonynsimon.currencyconverter.exceptions.InvalidParameterException;
-import com.anthonynsimon.currencyconverter.model.Currency;
-import com.anthonynsimon.currencyconverter.model.ExchangeQuote;
-import com.anthonynsimon.currencyconverter.model.ExchangeRates;
-import com.anthonynsimon.currencyconverter.services.ExchangeRateService;
+import com.anthonynsimon.cconverter.converter.CurrencyConverter;
+import com.anthonynsimon.cconverter.exceptions.InvalidParameterException;
+import com.anthonynsimon.cconverter.model.Currency;
+import com.anthonynsimon.cconverter.model.ExchangeQuote;
+import com.anthonynsimon.cconverter.model.ExchangeRates;
+import com.anthonynsimon.cconverter.services.ExchangeRateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 
 @Controller
 @RequestMapping("/api")
@@ -48,7 +47,6 @@ public final class CurrencyExchangeController {
                             .setToCurrency(toCurrency)
                             .setConversionResult(inputAmount)
                             .setExchangeRate(BigDecimal.ONE)
-                            .setDate(LocalDate.now())
                             .build(),
                     HttpStatus.OK);
         }
