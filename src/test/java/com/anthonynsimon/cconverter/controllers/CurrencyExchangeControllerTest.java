@@ -185,4 +185,19 @@ public class CurrencyExchangeControllerTest {
         this.mockMvc.perform(get("/api/rates/{currency}", "EURO"))
                 .andExpect(status().is4xxClientError());
     }
+
+    @Test
+    public void testNotFoundRoute() throws Exception {
+        this.mockMvc.perform(get("/api/rates/{currency}/something", "EUR"))
+                .andExpect(status().isNotFound());
+
+        this.mockMvc.perform(get("/api/rate/{currency}", "EUR"))
+                .andExpect(status().isNotFound());
+
+        this.mockMvc.perform(get("/convert", "EUR"))
+                .andExpect(status().isNotFound());
+
+        this.mockMvc.perform(get("/api/converts", "EUR"))
+                .andExpect(status().isNotFound());
+    }
 }

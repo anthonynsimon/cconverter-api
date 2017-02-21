@@ -1,5 +1,6 @@
 package com.anthonynsimon.cconverter.converter;
 
+import com.anthonynsimon.cconverter.exceptions.NotFoundException;
 import com.anthonynsimon.cconverter.model.Currency;
 import com.anthonynsimon.cconverter.model.ExchangeQuote;
 import com.anthonynsimon.cconverter.model.ExchangeRates;
@@ -44,5 +45,11 @@ public class CurrencyConverterTest {
         assertThat(quote.getConversionResult()).isCloseTo(BigDecimal.valueOf(25.0), Percentage.withPercentage(1d));
         assertThat(quote.getAmountToConvert()).isCloseTo(BigDecimal.valueOf(10), Percentage.withPercentage(1d));
         assertThat(quote.getExchangeRate()).isCloseTo(BigDecimal.valueOf(2.5), Percentage.withPercentage(1d));
+    }
+
+    @Test(expected = NotFoundException.class)
+    public void testUnknownCurrencyCode() {
+        Currency toCurrency = new Currency("CRC");
+        ExchangeQuote quote = currencyConverter.convert(toCurrency, BigDecimal.valueOf(10));
     }
 }
