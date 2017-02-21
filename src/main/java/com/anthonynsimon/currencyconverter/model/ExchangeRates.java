@@ -69,4 +69,34 @@ public final class ExchangeRates {
         return String.format("Base Currency: '%s'. Date: '%s'. Rates: %s",
                 baseCurrency, date, exchangeRates.toString());
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        ExchangeRates that = (ExchangeRates) o;
+
+        if (!baseCurrency.equals(that.baseCurrency)) {
+            return false;
+        }
+        if (!exchangeRates.equals(that.exchangeRates)) {
+            return false;
+        }
+        if (!date.equals(that.date)) {
+            return false;
+        }
+        return dateFetched.equals(that.dateFetched);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = baseCurrency.hashCode();
+        result = 31 * result + exchangeRates.hashCode();
+        result = 31 * result + date.hashCode();
+        result = 31 * result + dateFetched.hashCode();
+        return result;
+    }
 }

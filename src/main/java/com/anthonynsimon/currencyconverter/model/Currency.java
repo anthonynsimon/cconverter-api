@@ -70,23 +70,24 @@ public final class Currency {
     }
 
     @Override
-    public boolean equals(Object other) {
-        if (other == null) {
+    public String toString() {
+        return code;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        if (!(other instanceof Currency)) {
-            return false;
-        }
-        return this.hashCode() == other.hashCode();
+
+        Currency currency = (Currency) o;
+
+        return code.equals(currency.code);
     }
 
     @Override
     public int hashCode() {
         return code.hashCode();
-    }
-
-    @Override
-    public String toString() {
-        return code;
     }
 }
