@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.math.BigDecimal;
 
+/**
+ * ExchangeQuote holds all data resulting from a currency conversion.
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public final class ExchangeQuote {
 

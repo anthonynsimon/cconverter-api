@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 
+/**
+ * CurrencyExchangeController handles the main endpoints for the currency conversion API.
+ */
 @Controller
 @RequestMapping("/api")
 public final class CurrencyExchangeController {
@@ -21,6 +24,10 @@ public final class CurrencyExchangeController {
     @Autowired
     ExchangeRateService exchangeRateService;
 
+    /**
+     * Endpoint for handling the conversion of a value from one currency to another.
+     * Responds with an {@link ExchangeQuote} for the resulting value.
+     */
     @RequestMapping(value = "/convert", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public ResponseEntity<ExchangeQuote> convertCurrency(@RequestParam String from,
@@ -64,6 +71,10 @@ public final class CurrencyExchangeController {
                 HttpStatus.OK);
     }
 
+    /**
+     * Endpoint for handling the querying of exchange rates for a particular {@link Currency}.
+     * Responds with the {@link ExchangeRates} for the parameter currency.
+     */
     @RequestMapping(value = "/rates/{currency}", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<ExchangeRates> getRates(@PathVariable(name = "currency") String currencyCode) throws Exception {

@@ -12,10 +12,14 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * ExchangeRateService handles the requesting of exchange rates for a particular {@link Currency}.
+ */
 @Service
 public final class ExchangeRateService {
 
     // Cache rates for a reasonable time, rates of the same base do not need to be fetched for every request.
+    // TODO: make this configurable
     private final static Duration CACHE_EXPIRATION = Duration.ofMinutes(60);
 
     private final Map<Currency, ExchangeRates> cachedRates;
@@ -28,6 +32,9 @@ public final class ExchangeRateService {
         cachedRates = new HashMap<>();
     }
 
+    /**
+     * Returns the {@link ExchangeRates} for the provided {@link Currency}.
+     */
     public ExchangeRates getExchangeRates(Currency from) {
         ExchangeRates exchangeRates = cachedRates.get(from);
         boolean shouldUpdate = true;

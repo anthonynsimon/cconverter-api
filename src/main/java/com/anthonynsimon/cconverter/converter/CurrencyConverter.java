@@ -7,10 +7,16 @@ import com.anthonynsimon.cconverter.model.ExchangeRates;
 
 import java.math.BigDecimal;
 
+/**
+ * CurrencyConverter is a utility class for the conversion between currencies.
+ */
 public final class CurrencyConverter {
 
     private final ExchangeRates baseRates;
 
+    /**
+     * Constructs a CurrencyConverter with the base currency set based on the provided {@link ExchangeRates}.
+     */
     public CurrencyConverter(ExchangeRates baseRates) {
         this.baseRates = baseRates;
     }
@@ -19,6 +25,10 @@ public final class CurrencyConverter {
         return baseRates.getBaseCurrency();
     }
 
+    /**
+     * Returns the resulting {@link ExchangeQuote} by converting the parameter {@BigDecimal} 'value' from the base
+     * currency to the parameter {@link Currency} 'to'.
+     */
     public ExchangeQuote convert(Currency to, BigDecimal value) throws NotFoundException {
         BigDecimal exchangeRate = baseRates.getRates().get(to);
         if (exchangeRate == null) {

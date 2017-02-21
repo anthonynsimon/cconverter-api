@@ -7,6 +7,10 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.util.Arrays;
 import java.util.HashSet;
 
+
+/**
+ * Currency is a helper class for the parsing and validation of currency codes.
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonSerialize(using = CurrencySerializer.class)
 public final class Currency {

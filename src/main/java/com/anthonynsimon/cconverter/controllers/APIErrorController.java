@@ -14,6 +14,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
+/**
+ * Handles the custom error responses for the currency conversion API.
+ */
 @RestController
 public class APIErrorController implements ErrorController {
 

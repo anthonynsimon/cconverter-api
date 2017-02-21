@@ -13,6 +13,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Map;
 
+/**
+ * ExchangeRates holds all data resulting from an fetch exchange rate operation.
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public final class ExchangeRates {
 
